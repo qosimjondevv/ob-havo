@@ -5,8 +5,7 @@ export const weatherAPI = async (lat, lon) => {
     `${API}/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m,precipitation,uv_index&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,sunrise,sunset&timezone=auto`,
   );
 
+  if (!res.ok) throw new Error("Xatolik ");
+
   return res.json();
 };
-
-
-

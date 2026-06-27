@@ -1,31 +1,33 @@
 import { weatherAPI } from "@/api/weather";
 import { useEffect, useState } from "react";
 
-export const useWeather = (city) => {
+export const useWeather = ({ lat, lon }) => {
   const [weather, setWeather] = useState(null);
-
   const [loading, setLoanding] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!lat || !lon) return;
+
+    const load = async () => {
+      try {
+        setLoanding(true);
+        const data = await weatherAPI(lat, lon);
+        setWeather(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoanding(false);
+      }
+    };
+
     load();
-  }, [city]);
+  }, [lat, lon]);
 
-  const load = async () => {
-    try {
-      if (!city?.lat || !city?.lon) return;
-
-      setLoanding(true);
-      setError("");
-
-      const data = await weatherAPI(city.lat, city.lon);
-      setWeather(data);
-    } catch {
-      setError("Error");
-    } finally {
-      setLoanding(false);
-    }
+  return {
+    weather,
+    loading,
+    error,
   };
-
-  return { weather, loading, error };
 };

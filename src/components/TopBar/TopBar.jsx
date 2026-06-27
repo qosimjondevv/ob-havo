@@ -8,7 +8,13 @@ export const TopBar = ({
   region,
   chooseCity,
   setSelectRegion,
+  selectRegion,
 }) => {
+  const handleRegion = (e) => {
+    const seelectd = regions.find((i) => i.name === e.target.value);
+    setSelectRegion(seelectd);
+  };
+
   return (
     <header className="border-b border-white/10">
       <div className="my-container h-16 flex items-center justify-between gap-5">
@@ -16,13 +22,15 @@ export const TopBar = ({
           <h1 className="text-[#ADC6FF] font-bold text-2xl">WeatherFlow</h1>
 
           <select
-            onChange={(e) =>
-              setSelectRegion(regions.find((i) => i.name === e.target.value))
-            }
             className=" w-[260px] h-10 rounded-lg bg-[#101826] px-3 border  border-white/10"
+            onChange={handleRegion}
+            value={selectRegion.name}
           >
             {regions.map((item) => (
-              <option key={item.name}> {item.name}</option>
+              <option value={item.name} key={item.name}>
+                {" "}
+                {item.name}
+              </option>
             ))}
           </select>
         </div>
@@ -43,7 +51,7 @@ export const TopBar = ({
               <div className="absolute top-12 w-full  z-20 cursor-pointer bg-[#101826] rounded-2xl overflow-hidden ">
                 {region.map((item) => (
                   <div
-                    key={item.name}
+                    key={item.id}
                     onClick={() => chooseCity(item)}
                     className="px-4 py-3"
                   >

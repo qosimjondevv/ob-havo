@@ -1,12 +1,13 @@
 import { Days, HeroWeather, TopBar, WeatherCards } from "@/components";
-import { useCountry } from "@/hooks/useCountry";
+import { useHome } from "@/hooks/useHome";
 import { useWeather } from "@/hooks/useWeather";
 
 export const Home = () => {
-  const country = useCountry();
+  const country = useHome();
 
   const { weather, loading, error } = useWeather(country.selectRegion);
   if (loading) return <div className="flex justify-center ">Loading..</div>;
+
   if (error) return <div> {error} </div>;
   return (
     <>
